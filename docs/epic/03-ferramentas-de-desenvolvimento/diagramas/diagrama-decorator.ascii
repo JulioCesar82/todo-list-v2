@@ -1,0 +1,11 @@
++----------------+      +----------------------+      +---------------------+
+| <todo-screen>  | ---> |   withHistory()      |----->| CreateTodoUseCase   |
+| (ponto de uso) |      | (Decorator)          |      | (Lógica Original)   |
++----------------+      +----------------------+      +---------------------+
+                                 |
+           (antes de executar)   | (após executar)
+           v---------------------'--------------------v
++------------------------+      +---------------------------+
+| InMemoryTodoRepository |      |   ActionHistoryService    |
+| (pega o stateSnapshot) |      |   (registra a ação)       |
++------------------------+      +---------------------------+
