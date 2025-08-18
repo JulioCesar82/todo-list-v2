@@ -1,9 +1,7 @@
 ﻿import { sessionService } from '@project/data';
 import { router } from './router.js';
 
-document.body.addEventListener('login-success', (e) => {
-    const { token } = e.detail;
-    document.cookie = `session_token=${token}; Path=/; SameSite=Strict; Secure`;
+document.body.addEventListener('login-success', () => {
     router.navigate('/app');
 });
 

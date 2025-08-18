@@ -1,8 +1,9 @@
-﻿import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+﻿import { Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import '@project/components/login-form';
 import '@project/components/app-shell';
 import '@project/components/todo-screen';
+import { sessionService } from '@project/data';
 
 @Component({
   selector: 'app-root',
@@ -20,8 +21,26 @@ import '@project/components/todo-screen';
     </login-form>
   `,
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
+  private unsubscribe: () => void;
+
+  constructor() {
+    this.unsubscribe = () => {};
+  }
+
+  ngOnInit() {
+    this.unsubscribe = sessionService.onChange(() => this.updateIsAuthenticated());
+    this.updateIsAuthenticated();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe();
+  }
+
+  updateIsAuthenticated() {
+    this.isAuthenticated = !!sessionService.getUser();
+  }
 
   handleLoginSuccess(event: any) {
     console.log('Angular App: Login OK', event.detail);

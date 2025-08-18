@@ -1,24 +1,26 @@
-﻿{
+{
   "name": "vanilla-clean-arch-project",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/04-apps/*"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run dev --workspace=@project/vanilla-app",
     "dev:react": "npm run dev --workspace=@project/react-app",
     "dev:vue": "npm run dev --workspace=@project/vue-app",
     "dev:angular": "npm start --workspace=@project/angular-app",
-    "build": "vite build",
     "storybook": "storybook dev -p 6006",
-    "test": "vitest"
+    "test": "vitest",
+    "fix-boms": "node fix-all-boms.js"
   },
   "devDependencies": {
     "@angular/cli": "^17.3.7",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitejs/plugin-vue": "^5.0.4",
+    "glob": "^11.0.3",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "lit": "^3.1.2",

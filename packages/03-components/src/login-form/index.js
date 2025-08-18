@@ -1,12 +1,13 @@
 ﻿import { LitElement, html, css } from 'lit';
 import { AuthenticateUserUseCase } from '@project/core';
-import { MockAuthRepository } from '@project/data';
+import { MockAuthRepository, sessionService } from '@project/data';
 
 class LoginController {
   constructor(host, dependencies) {
     this.host = host;
     this.useCase = dependencies.useCase;
     host.addController(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
   async handleSubmit(event) {
     event.preventDefault();
@@ -19,6 +20,7 @@ class LoginController {
         password: formData.get('password')
       });
       if (result) {
+        sessionService.login(result);
         this.host.dispatchEvent(new CustomEvent('login-success', { bubbles: true, composed: true, detail: result }));
       } else {
         this.host.errorMessage = 'As credenciais fornecidas estão incorretas.';

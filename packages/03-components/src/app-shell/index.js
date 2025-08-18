@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
-import './app-header/index.js';
-import './app-sidebar/index.js';
-import './notification-widget/index.js';
+import '../app-header/index.js';
+import '../app-sidebar/index.js';
+import '../notification-widget/index.js';
 
 export class AppShell extends LitElement {
     static styles = css`
