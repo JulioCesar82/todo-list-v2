@@ -5,7 +5,10 @@
   }
   async execute({ todoId, todoDescription }) {
     await this.todoRepository.remove(todoId);
-    this.eventBus.dispatch('todo:removed', { id: todoId, description: todoDescription });
+    this.eventBus.dispatch("todo:removed", {
+      id: todoId,
+      description: todoDescription,
+    });
     return todoId;
   }
 }

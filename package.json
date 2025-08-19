@@ -1,6 +1,4 @@
 {
-  "name": "vanilla-clean-arch-project",
-  "version": "1.0.0",
   "private": true,
   "type": "module",
   "workspaces": [
@@ -8,27 +6,43 @@
     "packages/04-apps/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=@project/vanilla-app",
-    "dev:react": "npm run dev --workspace=@project/react-app",
-    "dev:vue": "npm run dev --workspace=@project/vue-app",
-    "dev:angular": "npm start --workspace=@project/angular-app",
-    "storybook": "storybook dev -p 6006",
-    "test": "vitest",
-    "fix-boms": "node fix-all-boms.js"
+    "start": "npm run start --workspace=@project/vanilla-app",
+    "start:react": "npm run start --workspace=@project/react-app",
+    "start:vue": "npm run start --workspace=@project/vue-app",
+    "start:angular": "npm start --workspace=@project/angular-app",
+    "storybook": "npm run storybook --workspace=@project/vanilla-app",
+    "storybook:react": "npm run storybook --workspace=@project/react-app",
+    "storybook:vue": "npm run storybook --workspace=@project/vue-app",
+    "storybook:angular": "npm run storybook --workspace=@project/angular-app",
+    "storybook:components": "npm run storybook --workspace=@project/components",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --no-cache",
+    "format": "prettier --write packages/",
+    "fix-boms": "node scripts/fix-all-boms.js"
   },
   "devDependencies": {
-    "@angular/cli": "^17.3.7",
-    "@vitejs/plugin-react": "^4.2.1",
-    "@vitejs/plugin-vue": "^5.0.4",
-    "glob": "^11.0.3",
-    "jsonwebtoken": "^9.0.2",
-    "jwt-decode": "^4.0.0",
-    "lit": "^3.1.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "storybook": "^7.6.17",
-    "vite": "^5.1.4",
-    "vitest": "^1.2.2",
-    "vue": "^3.4.27"
+    "@babel/core": "^7.28.3",
+    "@babel/eslint-parser": "^7.28.0",
+    "@eslint/js": "^9.33.0",
+    "@typescript-eslint/eslint-plugin": "^8.40.0",
+    "@typescript-eslint/parser": "^8.40.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-storybook": "^9.1.2",
+    "eslint-plugin-vue": "^10.4.0",
+    "globals": "^16.3.0",
+    "prettier": "3.6.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.40.0",
+    "vue-eslint-parser": "^10.2.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "engines": {
+    "node": ">= 12.0.0",
+    "npm": ">= 6.0.0"
   }
 }

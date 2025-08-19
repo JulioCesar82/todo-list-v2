@@ -1,4 +1,4 @@
-﻿import { Todo, TodoRepositoryInterface } from '@project/core';
+﻿import { Todo, TodoRepositoryInterface } from "@project/core";
 
 let instance;
 
@@ -8,8 +8,12 @@ export class InMemoryTodoRepository extends TodoRepositoryInterface {
     if (instance) return instance;
 
     this.todos = [
-        new Todo({ id: '1', description: 'Revisar arquitetura do projeto', completed: true }),
-        new Todo({ id: '2', description: 'Implementar a tela de TODOs' })
+      new Todo({
+        id: "1",
+        description: "Revisar arquitetura do projeto",
+        completed: true,
+      }),
+      new Todo({ id: "2", description: "Implementar a tela de TODOs" }),
     ];
     instance = this;
   }
@@ -25,6 +29,6 @@ export class InMemoryTodoRepository extends TodoRepositoryInterface {
   }
 
   async remove(id) {
-    this.todos = this.todos.filter(t => t.id !== id);
+    this.todos = this.todos.filter((t) => t.id !== id);
   }
 }

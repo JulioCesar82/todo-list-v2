@@ -1,1 +1,1 @@
-declare module '@project/data';
+declare module "@project/data";

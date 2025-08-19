@@ -2,12 +2,42 @@
   "name": "@project/vue-app",
   "version": "1.0.0",
   "private": true,
-  "scripts": { "dev": "vite", "build": "vite build" },
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "test": "vitest",
+    "test2": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "lint": "vue-cli-service lint",
+    "preview": "vite preview",
+    "serve": "npm run build && node server.js",
+    "storybook2": "start-storybook -p 6006 -s public",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "build-storybook"
+  },
   "dependencies": {
     "@project/components": "1.0.0",
-    "vue": "^3.4.27"
+    "vue": "^3.5.18"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.4"
+    "@storybook/builder-vite": "^8.2.9",
+    "@storybook/vue3": "^8.2.9",
+    "@storybook/vue3-vite": "^8.2.9",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/vue": "^8.1.0",
+    "@tsconfig/node20": "^20.1.4",
+    "@types/jsdom": "^21.1.7",
+    "@types/serve-static": "^1.15.7",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitejs/plugin-vue-jsx": "^4.0.1",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "@vue/test-utils": "^2.4.6",
+    "@vue/tsconfig": "^0.5.1",
+    "jsdom": "^24.1.0",
+    "vite-plugin-vue-devtools": "^7.3.8",
+    "vue3-jest": "^27.0.0-alpha.1"
   }
 }

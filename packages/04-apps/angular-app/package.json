@@ -3,8 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "ng serve",
-    "build": "ng build"
+    "ng": "ng",
+    "test": "jest --verbose",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "start": "ng serve --configuration development",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "server": "npm run build && node server.js",
+    "storybook": "ng run @project/angular-app:storybook",
+    "storybook:build": "ng run @project/angular-app:build-storybook"
   },
   "dependencies": {
     "@angular/common": "^17.3.0",
