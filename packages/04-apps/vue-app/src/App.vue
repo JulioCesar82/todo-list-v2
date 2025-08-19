@@ -1,11 +1,33 @@
 ﻿<script setup>
-import { ref } from 'vue';
-const isAuthenticated = ref(false);
+import { ref, onMounted, onUnmounted } from 'vue';
+import { sessionService } from '@project/data';
+
+const isAuthenticated = ref(sessionService.isAuthenticated());
+let unsubscribe;
+
 const handleLoginSuccess = (event) => {
   console.log('Vue App: Login OK', event.detail);
-  document.cookie = `session_token=${event.detail.token}; Path=/;`;
   isAuthenticated.value = true;
 };
+
+const handleLogout = () => {
+  console.log('Vue App: Logout');
+  isAuthenticated.value = false;
+};
+
+onMounted(() => {
+  unsubscribe = sessionService.onChange((event) => {
+    if (event === 'logged-out') {
+      handleLogout();
+    }
+  });
+});
+
+onUnmounted(() => {
+  if (unsubscribe) {
+    unsubscribe();
+  }
+});
 </script>
 
 <template>
