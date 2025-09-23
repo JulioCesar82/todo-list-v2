@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit";
+
 import {
   CreateTodoUseCase,
   ListTodosUseCase,
@@ -6,25 +6,7 @@ import {
 } from "@project/core";
 import { InMemoryTodoRepository, eventBus } from "@project/data";
 
-export class TodoScreen extends LitElement {
-  static styles = css`
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem;
-      border-bottom: 1px solid #eee;
-    }
-    .empty-state {
-      color: #888;
-      margin-top: 2rem;
-      text-align: center;
-    }
-  `;
+class TodoScreen extends LitElement {
   static properties = {
     todos: { type: Array, state: true },
     isLoading: { type: Boolean, state: true },
@@ -38,6 +20,18 @@ export class TodoScreen extends LitElement {
     this.listUC = new ListTodosUseCase(repo);
     this.createUC = new CreateTodoUseCase(repo, eventBus);
     this.removeUC = new RemoveTodoUseCase(repo, eventBus);
+    this.attachTemplates();
+  }
+
+  attachTemplates() {
+    // Adiciona o style template se não estiver presente
+    if (!document.getElementById('todo-screen-style')) {
+      import('./todo-screen-style.html');
+    }
+    // Adiciona o html template se não estiver presente
+    if (!document.getElementById('todo-screen-template')) {
+      import('./todo-screen-template.html');
+    }
   }
 
   async connectedCallback() {
@@ -77,33 +71,40 @@ export class TodoScreen extends LitElement {
 
   render() {
     if (this.isLoading) return html`<p>Carregando tarefas...</p>`;
+    // Clona o template externo
+    const styleTemplate = document.getElementById('todo-screen-style');
+    const htmlTemplate = document.getElementById('todo-screen-template');
+    let styleContent = '';
+    let htmlContent = '';
+    if (styleTemplate) {
+      styleContent = styleTemplate.innerHTML;
+    }
+    if (htmlTemplate) {
+      htmlContent = htmlTemplate.innerHTML;
+    }
+    // Renderiza o template e insere a lista de tarefas dinamicamente
     return html`
-      <h2>Minhas Tarefas</h2>
-      <form @submit=${this.handleAddTodo}>
-        <input
-          name="description"
-          type="text"
-          placeholder="O que precisa ser feito?"
-          required
-        />
-        <button name="addButton" type="submit">Adicionar</button>
-      </form>
-      ${this.todos.length === 0
-        ? html`<p class="empty-state">
-            Você ainda não tem tarefas. Que tal adicionar a primeira?
-          </p>`
-        : html`<ul>
-            ${this.todos.map(
-              (todo) =>
-                html`<li>
-                  <span>${todo.description}</span
-                  ><button @click=${() => this.handleRemoveTodo(todo)}>
-                    Remover
-                  </button>
-                </li>`,
-            )}
-          </ul>`}
+      ${styleContent ? html([styleContent]) : ''}
+      <div>
+        ${htmlContent ? html([htmlContent]) : ''}
+        ${this.todos.length === 0
+          ? html`<p class="empty-state">
+              Você ainda não tem tarefas. Que tal adicionar a primeira?
+            </p>`
+          : html`<ul>
+              ${this.todos.map(
+                (todo) =>
+                  html`<li>
+                    <span>${todo.description}</span>
+                    <button @click=${() => this.handleRemoveTodo(todo)}>
+                      Remover
+                    </button>
+                  </li>`
+              )}
+            </ul>`}
+      </div>
     `;
   }
 }
+
 customElements.define("todo-screen", TodoScreen);
