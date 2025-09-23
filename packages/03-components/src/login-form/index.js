@@ -1,4 +1,4 @@
-﻿import { LitElement, html, css } from "lit";
+﻿import { LitElement, html } from "lit";
 import { AuthenticateUserUseCase } from "@project/core";
 import { MockAuthRepository, sessionService } from "@project/data";
 
@@ -37,38 +37,14 @@ class LoginController {
       this.host.isLoading = false;
     }
   }
+}
 
-// ...existing code...
-  static styles = css`
-    .container {
-      max-width: 320px;
-      margin: 3rem auto;
-      padding: 1.5rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .error {
-      color: red;
-      font-size: 0.9rem;
-    }
-  `;
+class LoginForm extends LitElement {
   static properties = {
     isLoading: { type: Boolean },
     errorMessage: { type: String },
   };
-  constructor() {
-    super();
-    this.isLoading = false;
-    this.errorMessage = "";
-    const repo = new MockAuthRepository();
-    const useCase = new AuthenticateUserUseCase(repo);
-    this.controller = new LoginController(this, { useCase });
-  }
+
   constructor() {
     super();
     this.attachTemplates();
@@ -107,6 +83,6 @@ class LoginController {
       </div>
     `;
   }
-  }
 }
+
 customElements.define("login-form", LoginForm);

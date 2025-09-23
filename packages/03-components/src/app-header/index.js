@@ -1,7 +1,4 @@
-﻿
-import { sessionService as realSessionService } from "@project/data";
-
-import { LitElement, html } from "lit";
+﻿import { LitElement, html } from "lit";
 import { sessionService as realSessionService } from "@project/data";
 
 class AppHeader extends LitElement {

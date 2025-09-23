@@ -1,3 +1,5 @@
+import { LitElement, html } from "lit";
+
 class AppSidebar extends LitElement {
   constructor() {
     super();
@@ -32,4 +34,5 @@ class AppSidebar extends LitElement {
     `;
   }
 }
+
 customElements.define("app-sidebar", AppSidebar);

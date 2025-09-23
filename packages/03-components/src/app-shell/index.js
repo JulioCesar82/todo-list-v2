@@ -3,8 +3,7 @@ import "../app-header/index.js";
 import "../app-sidebar/index.js";
 import "../notification-widget/index.js";
 
-  static styles = [];
-
+class AppShell extends LitElement {
   constructor() {
     super();
     this.attachTemplates();
@@ -30,7 +29,6 @@ import "../notification-widget/index.js";
     if (htmlTemplate) {
       htmlContent = htmlTemplate.innerHTML;
     }
-
     return html`
       ${styleContent ? html([styleContent]) : ''}
       <div>
@@ -39,5 +37,6 @@ import "../notification-widget/index.js";
       </div>
     `;
   }
-// ...existing code...
+}
+
 customElements.define("app-shell", AppShell);
