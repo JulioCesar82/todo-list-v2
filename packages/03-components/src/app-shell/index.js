@@ -1,32 +1,43 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
 import "../app-header/index.js";
 import "../app-sidebar/index.js";
 import "../notification-widget/index.js";
 
-export class AppShell extends LitElement {
-  static styles = css`
-    .layout {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      grid-template-rows: auto 1fr;
-      height: 100vh;
+  static styles = [];
+
+  constructor() {
+    super();
+    this.attachTemplates();
+  }
+
+  attachTemplates() {
+    if (!document.getElementById('app-shell-style')) {
+      import('./app-shell-style.html');
     }
-    app-header {
-      grid-column: 1 / 3;
+    if (!document.getElementById('app-shell-template')) {
+      import('./app-shell-template.html');
     }
-    main {
-      padding: 1.5rem;
-    }
-  `;
+  }
+
   render() {
+    const styleTemplate = document.getElementById('app-shell-style');
+    const htmlTemplate = document.getElementById('app-shell-template');
+    let styleContent = '';
+    let htmlContent = '';
+    if (styleTemplate) {
+      styleContent = styleTemplate.innerHTML;
+    }
+    if (htmlTemplate) {
+      htmlContent = htmlTemplate.innerHTML;
+    }
+
     return html`
-      <div class="layout">
-        <app-header></app-header>
-        <app-sidebar></app-sidebar>
-        <main><slot></slot></main>
-        <notification-widget></notification-widget>
+      ${styleContent ? html([styleContent]) : ''}
+      <div>
+        ${htmlContent ? html([htmlContent]) : ''}
+        <slot></slot>
       </div>
     `;
   }
-}
+// ...existing code...
 customElements.define("app-shell", AppShell);

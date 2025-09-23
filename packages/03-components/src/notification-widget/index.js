@@ -1,43 +1,29 @@
-import { LitElement, html, css } from "lit";
-import { eventBus } from "@project/data";
+// ...existing code...
 
-export class NotificationWidget extends LitElement {
-  static styles = css`
-    .widget {
-      position: fixed;
-      bottom: 1rem;
-      right: 1rem;
-      background-color: #222;
-      color: white;
-      padding: 1rem;
-      border-radius: 8px;
-      z-index: 1000;
-      opacity: 0;
-      transition:
-        opacity 0.5s,
-        transform 0.5s;
-      visibility: hidden;
-      transform: translateY(20px);
+  attachTemplates() {
+    if (!document.getElementById('notification-widget-style')) {
+      import('./notification-widget-style.html');
     }
-    .widget.visible {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
+    if (!document.getElementById('notification-widget-template')) {
+      import('./notification-widget-template.html');
     }
-  `;
-  static properties = {
-    message: { type: String },
-    isVisible: { type: Boolean },
-  };
-
-  constructor() {
-    super();
-    this.message = "";
-    this.isVisible = false;
-    this.timeout = null;
-    this.unsubCreated = null;
-    this.unsubRemoved = null;
   }
+    static get properties() {
+      return {
+        message: { type: String },
+        isVisible: { type: Boolean },
+      };
+    }
+
+    constructor() {
+      super();
+      this.message = "";
+      this.isVisible = false;
+      this.timeout = null;
+      this.unsubCreated = null;
+      this.unsubRemoved = null;
+      this.attachTemplates();
+    }
 
   connectedCallback() {
     super.connectedCallback();
@@ -65,9 +51,23 @@ export class NotificationWidget extends LitElement {
   }
 
   render() {
-    return html`<div class="widget ${this.isVisible ? "visible" : ""}">
-      ${this.message}
-    </div>`;
+    const styleTemplate = document.getElementById('notification-widget-style');
+    const htmlTemplate = document.getElementById('notification-widget-template');
+    let styleContent = '';
+    let htmlContent = '';
+    if (styleTemplate) {
+      styleContent = styleTemplate.innerHTML;
+    }
+    if (htmlTemplate) {
+      htmlContent = htmlTemplate.innerHTML;
+    }
+    return html`
+      ${styleContent ? html([styleContent]) : ''}
+      <div>
+        ${htmlContent ? html([htmlContent]) : ''}
+        <div class="widget ${this.isVisible ? "visible" : ""}">${this.message}</div>
+      </div>
+    `;
   }
 }
 customElements.define("notification-widget", NotificationWidget);

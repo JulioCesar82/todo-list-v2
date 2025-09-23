@@ -37,9 +37,8 @@ class LoginController {
       this.host.isLoading = false;
     }
   }
-}
 
-export class LoginForm extends LitElement {
+// ...existing code...
   static styles = css`
     .container {
       max-width: 320px;
@@ -70,32 +69,44 @@ export class LoginForm extends LitElement {
     const useCase = new AuthenticateUserUseCase(repo);
     this.controller = new LoginController(this, { useCase });
   }
+  constructor() {
+    super();
+    this.attachTemplates();
+    this.isLoading = false;
+    this.errorMessage = "";
+    const repo = new MockAuthRepository();
+    const useCase = new AuthenticateUserUseCase(repo);
+    this.controller = new LoginController(this, { useCase });
+  }
+
+  attachTemplates() {
+    if (!document.getElementById('login-form-style')) {
+      import('./login-form-style.html');
+    }
+    if (!document.getElementById('login-form-template')) {
+      import('./login-form-template.html');
+    }
+  }
+
   render() {
+    const styleTemplate = document.getElementById('login-form-style');
+    const htmlTemplate = document.getElementById('login-form-template');
+    let styleContent = '';
+    let htmlContent = '';
+    if (styleTemplate) {
+      styleContent = styleTemplate.innerHTML;
+    }
+    if (htmlTemplate) {
+      htmlContent = htmlTemplate.innerHTML;
+    }
     return html`
-      <div class="container">
-        <form @submit=${this.controller.handleSubmit}>
-          <h2>Acessar o Sistema</h2>
-          <input
-            name="login"
-            type="text"
-            placeholder="Login (admin)"
-            required
-          />
-          <input
-            name="password"
-            type="password"
-            placeholder="Senha (admin)"
-            required
-          />
-          <button type="submit" .disabled=${this.isLoading}>
-            ${this.isLoading ? "Entrando..." : "Entrar"}
-          </button>
-          ${this.errorMessage
-            ? html`<p class="error">${this.errorMessage}</p>`
-            : ""}
-        </form>
+      ${styleContent ? html([styleContent]) : ''}
+      <div>
+        ${htmlContent ? html([htmlContent]) : ''}
+        ${this.errorMessage ? html`<p class="error">${this.errorMessage}</p>` : ""}
       </div>
     `;
+  }
   }
 }
 customElements.define("login-form", LoginForm);

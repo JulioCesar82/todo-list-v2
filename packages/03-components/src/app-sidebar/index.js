@@ -1,27 +1,35 @@
-import { LitElement, html, css } from "lit";
+class AppSidebar extends LitElement {
+  constructor() {
+    super();
+    this.attachTemplates();
+  }
 
-export class AppSidebar extends LitElement {
-  static styles = css`
-    nav {
-      display: flex;
-      flex-direction: column;
-      padding: 1rem;
-      background-color: #fafafa;
-      border-right: 1px solid #ccc;
-      height: 100%;
+  attachTemplates() {
+    if (!document.getElementById('app-sidebar-style')) {
+      import('./app-sidebar-style.html');
     }
-    a {
-      padding: 0.5rem;
-      text-decoration: none;
-      color: #333;
-      border-radius: 4px;
+    if (!document.getElementById('app-sidebar-template')) {
+      import('./app-sidebar-template.html');
     }
-    a:hover {
-      background-color: #f0f0f0;
-    }
-  `;
+  }
+
   render() {
-    return html`<nav><a href="/app/todos">Gerenciar Tarefas</a></nav>`;
+    const styleTemplate = document.getElementById('app-sidebar-style');
+    const htmlTemplate = document.getElementById('app-sidebar-template');
+    let styleContent = '';
+    let htmlContent = '';
+    if (styleTemplate) {
+      styleContent = styleTemplate.innerHTML;
+    }
+    if (htmlTemplate) {
+      htmlContent = htmlTemplate.innerHTML;
+    }
+    return html`
+      ${styleContent ? html([styleContent]) : ''}
+      <div>
+        ${htmlContent ? html([htmlContent]) : ''}
+      </div>
+    `;
   }
 }
 customElements.define("app-sidebar", AppSidebar);

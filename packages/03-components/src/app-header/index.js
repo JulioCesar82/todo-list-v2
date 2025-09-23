@@ -1,21 +1,10 @@
-﻿import { LitElement, html, css } from "lit";
+﻿
 import { sessionService as realSessionService } from "@project/data";
 
-export class AppHeader extends LitElement {
-  static styles = css`
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      background-color: #f0f0f0;
-      border-bottom: 1px solid #ccc;
-    }
-    button {
-      cursor: pointer;
-    }
-  `;
+import { LitElement, html } from "lit";
+import { sessionService as realSessionService } from "@project/data";
 
+class AppHeader extends LitElement {
   static properties = {
     userName: { state: true },
     sessionService: { state: true },
@@ -25,6 +14,16 @@ export class AppHeader extends LitElement {
     super();
     this.userName = "";
     this.sessionService = realSessionService;
+    this.attachTemplates();
+  }
+
+  attachTemplates() {
+    if (!document.getElementById('app-header-style')) {
+      import('./app-header-style.html');
+    }
+    if (!document.getElementById('app-header-template')) {
+      import('./app-header-template.html');
+    }
   }
 
   connectedCallback() {
@@ -40,13 +39,25 @@ export class AppHeader extends LitElement {
 
   render() {
     const user = this.sessionService.getUser();
-
-    if (!user) return html`<header><span>Olá, Visitante</span></header>`;
-
-    return html`<header>
-      <span>Olá, ${user.name}</span
-      ><button @click=${() => this.sessionService.logout()}>Sair</button>
-    </header>`;
+    const styleTemplate = document.getElementById('app-header-style');
+    const htmlTemplate = document.getElementById('app-header-template');
+    let styleContent = '';
+    let htmlContent = '';
+    if (styleTemplate) {
+      styleContent = styleTemplate.innerHTML;
+    }
+    if (htmlTemplate) {
+      htmlContent = htmlTemplate.innerHTML;
+    }
+    return html`
+      ${styleContent ? html([styleContent]) : ''}
+      <div>
+        ${htmlContent ? html([htmlContent]) : ''}
+        <span>${user ? `Olá, ${user.name}` : 'Olá, Visitante'}</span>
+        ${user ? html`<button @click=${() => this.sessionService.logout()}>Sair</button>` : ''}
+      </div>
+    `;
   }
 }
+
 customElements.define("app-header", AppHeader);
