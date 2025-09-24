@@ -1,5 +1,29 @@
 ﻿import { sessionService } from "@project/data";
 
+// Carrega templates customizados organizados em subpastas por componente
+[
+  "login-form/login-form-style.html",
+  "login-form/login-form-template.html",
+  "app-header/app-header-style.html",
+  "app-header/app-header-template.html",
+  "app-shell/app-shell-style.html",
+  "app-shell/app-shell-template.html",
+  "app-sidebar/app-sidebar-style.html",
+  "app-sidebar/app-sidebar-template.html",
+  "todo-screen/todo-screen-style.html",
+  "todo-screen/todo-screen-template.html",
+  "notification-widget/notification-widget-style.html",
+  "notification-widget/notification-widget-template.html",
+].forEach((file) => {
+  fetch(file)
+    .then((res) => res.text())
+    .then((html) => {
+      const div = document.createElement("div");
+      div.innerHTML = html;
+      document.body.appendChild(div.firstElementChild);
+    });
+});
+
 const routes = {
   "/login": () => import("@project/components/login-form"),
   "/app": () => import("@project/components/app-shell"),
