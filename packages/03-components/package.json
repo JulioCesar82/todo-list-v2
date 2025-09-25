@@ -24,6 +24,7 @@
     "@storybook/test": "^8.2.8",
     "@storybook/web-components-vite": "^8.2.8",
     "@storybook/web-components-webpack5": "^8.2.8",
+    "raw-loader": "^4.0.2",
     "storybook": "^8.2.8"
   },
   "exports": {

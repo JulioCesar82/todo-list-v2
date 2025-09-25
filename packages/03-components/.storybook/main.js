@@ -11,4 +11,12 @@ module.exports = {
     name: "@storybook/web-components-webpack5",
     options: {},
   },
+  webpackFinal: async (config) => {
+    config.module.rules.push({
+      test: /\.html$/,
+      use: 'raw-loader',
+      exclude: /node_modules/,
+    });
+    return config;
+  },
 };
