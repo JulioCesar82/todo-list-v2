@@ -9,5 +9,8 @@
     />
     <button name="addButton" type="submit">Adicionar</button>
   </form>
-  <div class="todos-list"></div>
+  <div class="todos-list">
+    <slot name="empty-state"></slot>
+    <slot name="todo-list"></slot>
+  </div>
 </template>
