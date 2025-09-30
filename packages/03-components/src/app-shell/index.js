@@ -1,32 +1,55 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html } from "lit";
 import "../app-header/index.js";
 import "../app-sidebar/index.js";
 import "../notification-widget/index.js";
+import { loadAndAppendTemplate } from '../utils/template-loader.js';
 
-export class AppShell extends LitElement {
-  static styles = css`
-    .layout {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      grid-template-rows: auto 1fr;
-      height: 100vh;
-    }
-    app-header {
-      grid-column: 1 / 3;
-    }
-    main {
-      padding: 1.5rem;
-    }
-  `;
+class AppShell extends LitElement {
+  static properties = {
+    styleTemplateId: { type: String },
+    htmlTemplateId: { type: String },
+  };
+
+  constructor() {
+    super();
+    this.styleTemplateId = 'app-shell-style';
+    this.htmlTemplateId = 'app-shell-template';
+    
+    this.attachTemplates();
+  }
+
+  attachTemplates() {
+    loadAndAppendTemplate(`./${this.styleTemplateId}.html`, this.styleTemplateId);
+    loadAndAppendTemplate(`./${this.htmlTemplateId}.html`, this.htmlTemplateId);
+  }
+
   render() {
+    const styleTemplate = document.getElementById(this.styleTemplateId);
+    const htmlTemplate = document.getElementById(this.htmlTemplateId);
+   
+    let styleContent = '';
+    let htmlContent = '';
+
+    if (!styleTemplate) {
+      console.error(`Template with ID '${this.styleTemplateId}' not found.`);
+      return html`<p>Error: Style template not found.</p>`;
+    }
+    if (!htmlTemplate) {
+      console.error(`Template with ID '${this.htmlTemplateId}' not found.`);
+      return html`<p>Error: HTML template not found.</p>`;
+    }
+
+    styleContent = styleTemplate.innerHTML;
+    htmlContent = htmlTemplate.innerHTML;
+
     return html`
-      <div class="layout">
-        <app-header></app-header>
-        <app-sidebar></app-sidebar>
-        <main><slot></slot></main>
-        <notification-widget></notification-widget>
+      ${styleContent ? html([styleContent]) : ''}
+      <div>
+        ${htmlContent ? html([htmlContent]) : ''}
+        <slot></slot>
       </div>
     `;
   }
 }
+
 customElements.define("app-shell", AppShell);
