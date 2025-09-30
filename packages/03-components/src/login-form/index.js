@@ -78,6 +78,10 @@ class LoginForm extends LitElement {
     loadAndAppendTemplate(`./${this.htmlTemplateId}.html`, this.htmlTemplateId);
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    console.log('[login-form] componente carregado no DOM');
+  }
   render() {
     const styleTemplate = document.getElementById(this.styleTemplateId);
     const htmlTemplate = document.getElementById(this.htmlTemplateId);

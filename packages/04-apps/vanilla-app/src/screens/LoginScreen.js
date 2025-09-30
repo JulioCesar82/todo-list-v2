@@ -6,4 +6,4 @@ export class LoginScreen extends HTMLElement {
     this.innerHTML = html;
   }
 }
-  // import '@project/components/login-form';
+  import '@project/components/login-form';
